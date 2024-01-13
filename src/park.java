@@ -11,7 +11,7 @@ import java.awt.event.ActionEvent;
 
 public class park {
 
-	private JFrame frame;
+	JFrame frame;
 	private JTable table;
 	private JTextField textField;
 
@@ -43,6 +43,7 @@ public class park {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.setResizable(false);
 		frame.setBounds(100, 100, 950, 600);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
@@ -80,6 +81,7 @@ public class park {
 		AjouterVoitureBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				ParkForm.main(null);
+				frame.dispose();
 			}
 		});
 		AjouterVoitureBtn.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));

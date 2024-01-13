@@ -44,7 +44,9 @@ public class Locataire {
 	 */
 	private void initialize() {
 		frame = new JFrame();
+		frame.setResizable(false);
 		frame.getContentPane().setLayout(null);
+		frame.setBounds(100, 100, 950, 600);
 		
 		JButton btnAfficherTous = new JButton("Afficher tous");
 		btnAfficherTous.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
@@ -62,29 +64,35 @@ public class Locataire {
 		frame.getContentPane().add(rechercherLocatairetextField);
 		
 		JButton btnAjouterLocataire = new JButton("Ajouter Locataire");
+		btnAjouterLocataire.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				frame.dispose();
+				LocataireForm.main(null);
+			}
+		});
 		btnAjouterLocataire.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
-		btnAjouterLocataire.setBounds(761, 32, 150, 70);
+		btnAjouterLocataire.setBounds(750, 32, 150, 70);
 		frame.getContentPane().add(btnAjouterLocataire);
 		
 		JButton btnModifierLocataire = new JButton("Modifier Locataire");
 		btnModifierLocataire.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
-		btnModifierLocataire.setBounds(761, 152, 150, 70);
+		btnModifierLocataire.setBounds(750, 152, 154, 70);
 		frame.getContentPane().add(btnModifierLocataire);
 		
 		JButton btnSupprimerLocataire = new JButton("Supprimer Locataire");
 		btnSupprimerLocataire.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
-		btnSupprimerLocataire.setBounds(761, 265, 156, 70);
+		btnSupprimerLocataire.setBounds(750, 265, 156, 70);
 		frame.getContentPane().add(btnSupprimerLocataire);
 		
-		JButton quitterBtn = new JButton("Quitter");
-		quitterBtn.addActionListener(new ActionListener() {
+		JButton retourBtn = new JButton("Retour");
+		retourBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
 			}
 		});
-		quitterBtn.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
-		quitterBtn.setBounds(788, 375, 89, 50);
-		frame.getContentPane().add(quitterBtn);
+		retourBtn.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
+		retourBtn.setBounds(788, 375, 89, 50);
+		frame.getContentPane().add(retourBtn);
 		
 		table = new JTable();
 		table.setBounds(23, 25, 700, 400);
