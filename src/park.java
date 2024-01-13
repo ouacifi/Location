@@ -51,30 +51,15 @@ public class park {
 		table.setBounds(50, 32, 700, 400);
 		frame.getContentPane().add(table);
 		
-		JButton ajoutVoitureBtn = new JButton("Ajouter Voiture");
-		ajoutVoitureBtn.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
-		ajoutVoitureBtn.setBounds(774, 60, 150, 70);
-		frame.getContentPane().add(ajoutVoitureBtn);
-		
-		JButton modifierVoitureBtn = new JButton("Modifier Voiture");
-		modifierVoitureBtn.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
-		modifierVoitureBtn.setBounds(774, 162, 150, 70);
-		frame.getContentPane().add(modifierVoitureBtn);
-		
-		JButton supprimerVoitureBtn = new JButton("Supprimer Voiture");
-		supprimerVoitureBtn.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
-		supprimerVoitureBtn.setBounds(774, 273, 150, 70);
-		frame.getContentPane().add(supprimerVoitureBtn);
-		
-		JButton quitterBtn = new JButton("Quitter");
-		quitterBtn.addActionListener(new ActionListener() {
+		JButton retourBtn = new JButton("Retour");
+		retourBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				frame.dispose();
 			}
 		});
-		quitterBtn.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
-		quitterBtn.setBounds(801, 392, 89, 50);
-		frame.getContentPane().add(quitterBtn);
+				retourBtn.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
+		retourBtn.setBounds(801, 392, 89, 50);
+		frame.getContentPane().add(retourBtn);
 		
 		textField = new JTextField();
 		textField.setBounds(570, 475, 150, 40);
@@ -90,5 +75,25 @@ public class park {
 		btnRechercherVoiture.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
 		btnRechercherVoiture.setBounds(364, 461, 165, 70);
 		frame.getContentPane().add(btnRechercherVoiture);
+		
+		JButton AjouterVoitureBtn = new JButton("Ajouter Voiture");
+		AjouterVoitureBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				ParkForm.main(null);
+			}
+		});
+		AjouterVoitureBtn.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
+		AjouterVoitureBtn.setBounds(774, 49, 150, 70);
+		frame.getContentPane().add(AjouterVoitureBtn);
+		
+		JButton modifierVoitureBtn = new JButton("Modifier Voiture");
+		modifierVoitureBtn.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
+		modifierVoitureBtn.setBounds(774, 169, 150, 70);
+		frame.getContentPane().add(modifierVoitureBtn);
+		
+		JButton supprimerVoitureBtn = new JButton("Supprimer Voiture");
+		supprimerVoitureBtn.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
+		supprimerVoitureBtn.setBounds(774, 282, 150, 70);
+		frame.getContentPane().add(supprimerVoitureBtn);
 	}
 }

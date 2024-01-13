@@ -56,6 +56,11 @@ public class Index {
 		voirClientBtn.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 16));
 		voirClientBtn.setBounds(292, 263, 170, 55);
 		frame.getContentPane().add(voirClientBtn);
+		voirClientBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Locataire.main(null);
+			}
+		});
 		
 		JButton quitterBtn = new JButton("Quitter");
 		quitterBtn.addActionListener(new ActionListener() {
