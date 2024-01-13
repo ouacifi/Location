@@ -85,18 +85,8 @@ public class ParkForm {
 				}
 		});
 		btnVoirVoiture.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
-		btnVoirVoiture.setBounds(31, 408, 128, 42);
+		btnVoirVoiture.setBounds(31, 408, 164, 42);
 		frame.getContentPane().add(btnVoirVoiture);
-		
-		JButton btnMenuPrincipal = new JButton("Menu Principal");
-		btnMenuPrincipal.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-			 frame.dispose();
-			}
-		});
-		btnMenuPrincipal.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
-		btnMenuPrincipal.setBounds(596, 408, 128, 42);
-		frame.getContentPane().add(btnMenuPrincipal);
 		
 		JButton btnRetour = new JButton("Retour");
 		btnRetour.addActionListener(new ActionListener() {
@@ -105,7 +95,7 @@ public class ParkForm {
 				}
 		});
 		btnRetour.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
-		btnRetour.setBounds(596, 344, 128, 42);
+		btnRetour.setBounds(596, 344, 164, 42);
 		frame.getContentPane().add(btnRetour);
 		
 		JButton btnViderLesChamps = new JButton("Vider Les champs");
