@@ -1,9 +1,8 @@
 import java.awt.EventQueue;
-import java.sql.*;
+import java.text.SimpleDateFormat;
 import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import java.awt.Font;
 import javax.swing.JButton;
 import javax.swing.JRadioButton;
@@ -12,22 +11,39 @@ import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.sql.*;
 import javax.swing.JOptionPane;
-import java.awt.Color;
-import javax.swing.BorderFactory;
-import javax.swing.JFormattedTextField;
+import java.awt.*;
+import javax.swing.*;
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JRadioButton;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
+import java.util.Calendar;
+import javax.swing.SpinnerNumberModel;
+
 public class ParkForm {
 
 	private JFrame frame;
 	private JTextField textFieldVoiture;
 	private JTextField textFieldPrix;
 	private JTextField textFieldNimmatriculation;
-	private JTextField textFieldModèle;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private Connection conn;
 	private JRadioButton rdbtnDiesel;
 	private JRadioButton rdbtnEssence;
-
-	
+	private JSpinner spinner; 
 	
 	/**
 	 * Launch the application.
@@ -51,6 +67,8 @@ public class ParkForm {
 	public ParkForm() {
 		initialize();
 		initialiserDatabase();
+		
+				
 	}
 
 	/**
@@ -62,7 +80,6 @@ public class ParkForm {
 		frame.setBounds(100, 100, 816, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-
 		textFieldVoiture = new JTextField();
 		textFieldVoiture.setColumns(10);
 		textFieldVoiture.setBounds(441, 73, 107, 28);
@@ -86,6 +103,7 @@ public class ParkForm {
 		JButton btnAjouterVoiture = new JButton("Ajouter Voiture");
 		btnAjouterVoiture.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				addCarToDatabase();
 			}
 		});
 		btnAjouterVoiture.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
@@ -118,7 +136,7 @@ public class ParkForm {
 			public void actionPerformed(ActionEvent e) {
 				textFieldNimmatriculation.setText("");
 				textFieldVoiture.setText("");
-				textFieldModèle.setText("");
+				spinner.setValue("");
 				buttonGroup.clearSelection();
 				textFieldPrix.setText("");
 			}
@@ -142,11 +160,6 @@ public class ParkForm {
 		lblModle.setBounds(254, 17, 123, 28);
 		frame.getContentPane().add(lblModle);
 
-		textFieldModèle = new JTextField();
-		textFieldModèle.setColumns(10);
-		textFieldModèle.setBounds(254, 73, 107, 28);
-		frame.getContentPane().add(textFieldModèle);
-
 		JLabel lblCarburant = new JLabel("Carburant");
 		lblCarburant.setFont(new Font("Tahoma", Font.BOLD, 13));
 		lblCarburant.setBounds(56, 138, 123, 28);
@@ -163,6 +176,13 @@ public class ParkForm {
 		buttonGroup.add(rdbtnEssence);
 		rdbtnEssence.setBounds(50, 243, 109, 23);
 		frame.getContentPane().add(rdbtnEssence);
+		
+		
+		JSpinner spinner = new JSpinner();
+		spinner.setModel(new SpinnerNumberModel(Calendar.getInstance().get(Calendar.YEAR), 1900, Calendar.getInstance().get(Calendar.YEAR), 1));
+		spinner.setBounds(230, 74, 107, 28);
+		frame.getContentPane().add(spinner);
+	
 	}
 
 	/**
@@ -184,16 +204,14 @@ public class ParkForm {
 			e.printStackTrace();
 		}
 	}
-
-	
 	
 	/**
-     * Methode pour vider les champs
+     * Méthode pour vider les champs
      */
 	private void viderChamps() {
 		textFieldNimmatriculation.setText("");
 		textFieldVoiture.setText("");
-		textFieldModèle.setText("");
+		spinner.setValue("");
 		buttonGroup.clearSelection();
 		textFieldPrix.setText("");
 	}
@@ -204,13 +222,12 @@ public class ParkForm {
 	    private void addCarToDatabase() {
 	        try {
 	            // Prepare a SQL statement for the database insertion
-	            String sql = "INSERT INTO your_table_name (Nimmatriculation, voiture, modèle, carburant, prix) VALUES (?, ?, ?, ?, ?)";
+	            String sql = "INSERT INTO garage (Nimmatriculation, voiture, modèle, carburant, prix) VALUES (?, ?, ?, ?, ?)";
 	            try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
 	                // Set the values for the prepared statement based on your UI components
 	                preparedStatement.setString(1, textFieldNimmatriculation.getText());
 	                preparedStatement.setString(2, textFieldVoiture.getText());
-	                preparedStatement.setString(3, textFieldModèle.getText());
-	                
+	                preparedStatement.setString(3, new SimpleDateFormat("dd/MM/yyyy").format(spinner.getValue()));
 	                // Determine the selected carburant :
 	                
 	               String carburant = "";
