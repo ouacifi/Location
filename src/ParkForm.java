@@ -136,7 +136,6 @@ public class ParkForm {
 			public void actionPerformed(ActionEvent e) {
 				textFieldNimmatriculation.setText("");
 				textFieldVoiture.setText("");
-				spinner.setValue("");
 				buttonGroup.clearSelection();
 				textFieldPrix.setText("");
 			}
@@ -178,7 +177,7 @@ public class ParkForm {
 		frame.getContentPane().add(rdbtnEssence);
 		
 		
-		JSpinner spinner = new JSpinner();
+		 spinner = new JSpinner();
 		spinner.setModel(new SpinnerNumberModel(Calendar.getInstance().get(Calendar.YEAR), 1900, Calendar.getInstance().get(Calendar.YEAR), 1));
 		spinner.setBounds(230, 74, 107, 28);
 		frame.getContentPane().add(spinner);
@@ -211,7 +210,6 @@ public class ParkForm {
 	private void viderChamps() {
 		textFieldNimmatriculation.setText("");
 		textFieldVoiture.setText("");
-		spinner.setValue("");
 		buttonGroup.clearSelection();
 		textFieldPrix.setText("");
 	}
@@ -227,7 +225,7 @@ public class ParkForm {
 	                // Set the values for the prepared statement based on your UI components
 	                preparedStatement.setString(1, textFieldNimmatriculation.getText());
 	                preparedStatement.setString(2, textFieldVoiture.getText());
-	                preparedStatement.setString(3, new SimpleDateFormat("dd/MM/yyyy").format(spinner.getValue()));
+	                preparedStatement.setString(3, new SimpleDateFormat("yyyy").format(spinner.getValue()));
 	                // Determine the selected carburant :
 	                
 	               String carburant = "";
