@@ -43,8 +43,8 @@ public class ParkForm {
 	private Connection conn;
 	private JRadioButton rdbtnDiesel;
 	private JRadioButton rdbtnEssence;
-	private JSpinner spinner; 
-	
+	private JSpinner spinner;
+
 	/**
 	 * Launch the application.
 	 */
@@ -67,8 +67,7 @@ public class ParkForm {
 	public ParkForm() {
 		initialize();
 		initialiserDatabase();
-		
-				
+
 	}
 
 	/**
@@ -143,8 +142,10 @@ public class ParkForm {
 		btnViderLesChamps.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
 		btnViderLesChamps.setBounds(596, 204, 164, 42);
 		frame.getContentPane().add(btnViderLesChamps);
-
-		textFieldNimmatriculation = new JTextField();
+		
+		 int maxLength = 8;
+		 textFieldNimmatriculation = new JTextField();
+		 textFieldNimmatriculation.setDocument(new MaxLengthDocument(maxLength));	
 		textFieldNimmatriculation.setColumns(10);
 		textFieldNimmatriculation.setBounds(72, 73, 107, 28);
 		frame.getContentPane().add(textFieldNimmatriculation);
@@ -164,7 +165,7 @@ public class ParkForm {
 		lblCarburant.setBounds(56, 138, 123, 28);
 		frame.getContentPane().add(lblCarburant);
 
-        rdbtnDiesel = new JRadioButton("Diesel");
+		rdbtnDiesel = new JRadioButton("Diesel");
 		rdbtnDiesel.setFont(new Font("Tahoma", Font.BOLD, 13));
 		buttonGroup.add(rdbtnDiesel);
 		rdbtnDiesel.setBounds(50, 200, 109, 23);
@@ -175,13 +176,13 @@ public class ParkForm {
 		buttonGroup.add(rdbtnEssence);
 		rdbtnEssence.setBounds(50, 243, 109, 23);
 		frame.getContentPane().add(rdbtnEssence);
-		
-		
-		 spinner = new JSpinner();
-		spinner.setModel(new SpinnerNumberModel(Calendar.getInstance().get(Calendar.YEAR), 1900, Calendar.getInstance().get(Calendar.YEAR), 1));
+
+		spinner = new JSpinner();
+		spinner.setModel(new SpinnerNumberModel(Calendar.getInstance().get(Calendar.YEAR), 1900,
+				Calendar.getInstance().get(Calendar.YEAR), 1));
 		spinner.setBounds(230, 74, 107, 28);
 		frame.getContentPane().add(spinner);
-	
+
 	}
 
 	/**
@@ -196,17 +197,17 @@ public class ParkForm {
 			String password = "";
 
 			// Establish the database connection
-			 conn = DriverManager.getConnection(url, username, password);
-			 System.out.println("Connecter");
+			conn = DriverManager.getConnection(url, username, password);
+			System.out.println("Connecter");
 		} catch (SQLException e) {
 			System.out.println("Non connecter");
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
-     * Méthode pour vider les champs
-     */
+	 * Méthode pour vider les champs
+	 */
 	private void viderChamps() {
 		textFieldNimmatriculation.setText("");
 		textFieldVoiture.setText("");
@@ -215,46 +216,46 @@ public class ParkForm {
 	}
 
 	/**
-	     * Method to add a car to the database.
-	     */
-	    private void addCarToDatabase() {
-	        try {
-	            // Prepare a SQL statement for the database insertion
-	            String sql = "INSERT INTO garage (Nimmatriculation, voiture, modèle, carburant, prix) VALUES (?, ?, ?, ?, ?)";
-	            try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
-	                // Set the values for the prepared statement based on your UI components
-	                preparedStatement.setString(1, textFieldNimmatriculation.getText());
-	                preparedStatement.setString(2, textFieldVoiture.getText());
-	                preparedStatement.setString(3, new SimpleDateFormat("yyyy").format(spinner.getValue()));
-	                // Determine the selected carburant :
-	                
-	               String carburant = "";
-	               if (rdbtnDiesel.isSelected()) {
-	                   carburant = "Diesel";
-	               } else if (rdbtnEssence.isSelected()) {
-	                   carburant = "Essence";
-	               } else {
-	                   JOptionPane.showMessageDialog(null, "Veuillez choisir le type de carburant.", "Erreur",
-	                           JOptionPane.ERROR_MESSAGE);
-	                   return;  // Ajoutez un return ici pour sortir de la méthode en cas d'erreur
-	               }
-	               preparedStatement.setString(4, carburant);
+	 * Method to add a car to the database.
+	 */
+	private void addCarToDatabase() {
+		try {
+			// Prepare a SQL statement for the database insertion
+			String sql = "INSERT INTO garage (Nimmatriculation, voiture, modèle, carburant, prix) VALUES (?, ?, ?, ?, ?)";
+			try (PreparedStatement preparedStatement = conn.prepareStatement(sql)) {
+				// Set the values for the prepared statement based on your UI components
+				preparedStatement.setString(1, textFieldNimmatriculation.getText());
+				preparedStatement.setString(2, textFieldVoiture.getText());
+				preparedStatement.setString(3, new SimpleDateFormat("yyyy").format(spinner.getValue()));
+				// Determine the selected carburant :
 
-	                // Parse the prix value from the text field
-	                double prix = Double.parseDouble(textFieldPrix.getText());
-	                preparedStatement.setDouble(5, prix);
+				String carburant = "";
+				if (rdbtnDiesel.isSelected()) {
+					carburant = "Diesel";
+				} else if (rdbtnEssence.isSelected()) {
+					carburant = "Essence";
+				} else {
+					JOptionPane.showMessageDialog(null, "Veuillez choisir le type de carburant.", "Erreur",
+							JOptionPane.ERROR_MESSAGE);
+					return; // Ajoutez un return ici pour sortir de la méthode en cas d'erreur
+				}
+				preparedStatement.setString(4, carburant);
 
-	                // Execute the SQL statement
-	                preparedStatement.executeUpdate();
-	                // Optionally, you may show a success message or clear the input fields
-	                JOptionPane.showMessageDialog(null, "Voiture ajoutée avec succès.", "Succès",
-	                JOptionPane.INFORMATION_MESSAGE);
-	                viderChamps();  // Ajoutez cette méthode pour vider les champs après l'ajout
-	            }
-	        } catch (SQLException e) {
-	            e.printStackTrace();
-	        }
+				// Parse the prix value from the text field
+				double prix = Double.parseDouble(textFieldPrix.getText());
+				preparedStatement.setDouble(5, prix);
 
+				// Execute the SQL statement
+				preparedStatement.executeUpdate();
+				// Optionally, you may show a success message or clear the input fields
+				JOptionPane.showMessageDialog(null, "Voiture ajoutée avec succès.", "Succès",
+						JOptionPane.INFORMATION_MESSAGE);
+				viderChamps(); // Ajoutez cette méthode pour vider les champs après l'ajout
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		//methode pour empecher l'utilisateur d'inserer plus de 8 caractère 
 
-	    }
+	}
 }
