@@ -32,7 +32,7 @@ import javax.swing.JSpinner;
 import javax.swing.JTextField;
 import java.util.Calendar;
 import javax.swing.SpinnerNumberModel;
-
+import javax.swing.text.*;
 public class ParkForm {
 
 	private JFrame frame;
@@ -79,7 +79,10 @@ public class ParkForm {
 		frame.setBounds(100, 100, 816, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		textFieldVoiture = new JTextField();
+		 int maxLengthVoiture = 15;  //pour limiter ce jtextfield de ne pas depasser 15 caractere 
+		 textFieldVoiture = new JTextField();
+		 textFieldVoiture.setDocument(new MaxLengthDocument(maxLengthVoiture));	
+		
 		textFieldVoiture.setColumns(10);
 		textFieldVoiture.setBounds(441, 73, 107, 28);
 		frame.getContentPane().add(textFieldVoiture);
@@ -94,7 +97,9 @@ public class ParkForm {
 		lblNewLabel_6_1.setBounds(292, 138, 123, 28);
 		frame.getContentPane().add(lblNewLabel_6_1);
 
+		 //pour accepter seulement des entrés numerique de type  double
 		textFieldPrix = new JTextField();
+		((AbstractDocument)textFieldPrix.getDocument()).setDocumentFilter(new DoubleFilter());
 		textFieldPrix.setColumns(10);
 		textFieldPrix.setBounds(292, 200, 107, 28);
 		frame.getContentPane().add(textFieldPrix);
@@ -142,10 +147,10 @@ public class ParkForm {
 		btnViderLesChamps.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
 		btnViderLesChamps.setBounds(596, 204, 164, 42);
 		frame.getContentPane().add(btnViderLesChamps);
-		
-		 int maxLength = 8;
+		 //pour limiter ce jtextfield de ne pas depasser 8 caractere 
+		 int maxLengthNimm = 8;
 		 textFieldNimmatriculation = new JTextField();
-		 textFieldNimmatriculation.setDocument(new MaxLengthDocument(maxLength));	
+		 textFieldNimmatriculation.setDocument(new MaxLengthDocument(maxLengthNimm));	
 		textFieldNimmatriculation.setColumns(10);
 		textFieldNimmatriculation.setBounds(72, 73, 107, 28);
 		frame.getContentPane().add(textFieldNimmatriculation);
