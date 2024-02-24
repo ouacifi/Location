@@ -237,8 +237,8 @@ public class ParkForm {
 				preparedStatement.setString(1, textFieldNimmatriculation.getText());
 				preparedStatement.setString(2, textFieldVoiture.getText());
 				preparedStatement.setString(3, new SimpleDateFormat("yyyy").format(spinner.getValue()));
+				
 				// Determine the selected carburant :
-
 				String carburant = "";
 				if (rdbtnDiesel.isSelected()) {
 					carburant = "Diesel";

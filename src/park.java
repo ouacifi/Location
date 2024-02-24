@@ -9,6 +9,13 @@ import javax.swing.JTextField;
 import net.proteanit.sql.DbUtils;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JLabel;
+import javax.swing.JScrollPane;
+import javax.swing.SwingConstants;
+import javax.swing.table.DefaultTableModel;
+
+import java.awt.Component;
+import java.awt.Dimension;
 
 public class park {
 
@@ -54,9 +61,13 @@ public class park {
 		frame.getContentPane().setLayout(null);
 		
 		table = new JTable();
-		table.setBounds(50, 32, 700, 400);
-		frame.getContentPane().add(table);
-		
+	    JScrollPane scrollPane = new JScrollPane(table);
+	    scrollPane.setBounds(50, 50, 700, 400);
+		table.setRowHeight(30); 						// Définit la hauteur des cellules de la table à 30 pixels
+	    frame.getContentPane().add(scrollPane);
+		table.setFont(new Font("Tahoma", Font.ITALIC, 18));
+		table.setBounds(50, 50, 700, 400);
+
 		JButton retourBtn = new JButton("Retour");
 		retourBtn.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
@@ -68,18 +79,18 @@ public class park {
 		frame.getContentPane().add(retourBtn);
 		
 		textField = new JTextField();
-		textField.setBounds(570, 475, 150, 40);
+		textField.setBounds(570, 480, 150, 40);
 		frame.getContentPane().add(textField);
 		textField.setColumns(10);
 		
 		JButton btnAfficherTous = new JButton("Afficher tous");
 		btnAfficherTous.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
-		btnAfficherTous.setBounds(140, 461, 150, 70);
+		btnAfficherTous.setBounds(140, 470, 150, 70);
 		frame.getContentPane().add(btnAfficherTous);
 		
 		JButton btnRechercherVoiture = new JButton("Rechercher Voiture");
 		btnRechercherVoiture.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
-		btnRechercherVoiture.setBounds(364, 461, 165, 70);
+		btnRechercherVoiture.setBounds(364, 470, 165, 70);
 		frame.getContentPane().add(btnRechercherVoiture);
 		
 		JButton AjouterVoitureBtn = new JButton("Ajouter Voiture");
@@ -100,9 +111,35 @@ public class park {
 		frame.getContentPane().add(modifierVoitureBtn);
 		
 		JButton supprimerVoitureBtn = new JButton("Supprimer Voiture");
+		supprimerVoitureBtn.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				initialiserConnexion();
+				SupprimerEnregTable();
+			}
+		});
 		supprimerVoitureBtn.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
 		supprimerVoitureBtn.setBounds(774, 282, 150, 70);
 		frame.getContentPane().add(supprimerVoitureBtn); 
+		
+		JLabel lblNewLabelNimmatriculation = new JLabel("Nimmatriculation");
+		lblNewLabelNimmatriculation.setBounds(615, 18, 100, 35);
+		frame.getContentPane().add(lblNewLabelNimmatriculation);
+		
+		JLabel lblNewLabelPrix = new JLabel("Prix");
+		lblNewLabelPrix.setBounds(470, 18, 100, 35);
+		frame.getContentPane().add(lblNewLabelPrix);
+		
+		JLabel lblCarburant = new JLabel("Carburant");
+		lblCarburant.setBounds(330, 18, 100, 35);
+		frame.getContentPane().add(lblCarburant);
+		
+		JLabel lblModle = new JLabel("Modèle");
+		lblModle.setBounds(190, 18, 100, 35);
+		frame.getContentPane().add(lblModle);
+		
+		JLabel lblVoiture = new JLabel("Voiture");
+		lblVoiture.setBounds(55, 18, 100, 35);
+		frame.getContentPane().add(lblVoiture);
 								}
 		
 		//méthode pour initialiser la connexion avec la base de données
@@ -124,15 +161,44 @@ public class park {
 		//méthode pour afficher la liste des voiture ''chargement des table "
 				
 		public void  chargerTable() {
-			String 	requete = ("select * from garage");
+			String 	requete = "select * from garage";
 			try {
 			ps = conn.prepareStatement(requete);
-					  rs =	ps.executeQuery();
-					table.setModel(DbUtils.resultSetToTableModel(rs));
+			rs =	ps.executeQuery();
+			table.setModel(DbUtils.resultSetToTableModel(rs));
 				
 				} catch (SQLException e) {
-					e.printStackTrace();
-
 				}
 			}
+			//methode pour supprimer une ligne dans la table /
+			
+		public void SupprimerEnregTable() {
+			
+			int selectedRow = table.getSelectedRow();
+
+			if (selectedRow != -1) {
+				// Récupérer la valeur de l'identifiant de l'enregistrement
+				String id = table.getValueAt(selectedRow, 0).toString();
+
+				// Supprimer l'enregistrement de la base de données
+				String requeteDelete = "DELETE FROM garage WHERE NImmatriculation	 = ?";
+				try (PreparedStatement ps = conn.prepareStatement(requeteDelete)) {
+					ps.setString(1, id);
+					ps.executeUpdate();
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+					return;
+				}
+
+				// Supprimer la ligne du modèle de données
+				DefaultTableModel model = (DefaultTableModel) table.getModel();
+				model.removeRow(selectedRow);
+
+				// Rafraîchir l'affichage de la table
+				table.repaint();
+			} else {
+				System.out.println("Veuillez sélectionner une ligne à supprimer.");
+			}
+
 		}
+	}
