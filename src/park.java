@@ -1,20 +1,23 @@
 import java.awt.EventQueue;
-
+import java.sql.*;
 import javax.swing.JFrame;
 import javax.swing.JTable;
 import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import net.proteanit.sql.DbUtils;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
 public class park {
 
+	private Connection conn;
 	JFrame frame;
 	private JTable table;
 	private JTextField textField;
-
+	PreparedStatement ps ;
+	ResultSet rs ;
 	/**
 	 * Launch the application.
 	 */
@@ -36,6 +39,8 @@ public class park {
 	 */
 	public park() {
 		initialize();
+		initialiserConnexion ();
+		chargerTable();
 	}
 
 	/**
@@ -97,6 +102,37 @@ public class park {
 		JButton supprimerVoitureBtn = new JButton("Supprimer Voiture");
 		supprimerVoitureBtn.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
 		supprimerVoitureBtn.setBounds(774, 282, 150, 70);
-		frame.getContentPane().add(supprimerVoitureBtn);
-	}
-}
+		frame.getContentPane().add(supprimerVoitureBtn); 
+								}
+		
+		//méthode pour initialiser la connexion avec la base de données
+		public void initialiserConnexion (){
+									//coordonnées de la base de données //
+				String url ="jdbc:mysql://localhost:3306/location";
+				String user = "root"; 
+				String pass = ""; 
+								 // établir connexion  avec la base de données
+				try{
+					conn = DriverManager.getConnection(url,user,pass);
+					System.out.println("Connecter");
+				}catch(SQLException e) {														
+					System.out.println("Erreur lors de la connexion à la base de données :");
+			         e.printStackTrace()	; 
+			         } 
+				}
+
+		//méthode pour afficher la liste des voiture ''chargement des table "
+				
+		public void  chargerTable() {
+			String 	requete = ("select * from garage");
+			try {
+			ps = conn.prepareStatement(requete);
+					  rs =	ps.executeQuery();
+					table.setModel(DbUtils.resultSetToTableModel(rs));
+				
+				} catch (SQLException e) {
+					e.printStackTrace();
+
+				}
+			}
+		}
