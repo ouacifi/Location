@@ -74,7 +74,8 @@ public class park {
 				frame.dispose();
 			}
 		});
-				retourBtn.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
+		
+		retourBtn.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
 		retourBtn.setBounds(801, 392, 89, 50);
 		frame.getContentPane().add(retourBtn);
 		
@@ -119,27 +120,7 @@ public class park {
 		});
 		supprimerVoitureBtn.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 12));
 		supprimerVoitureBtn.setBounds(774, 282, 150, 70);
-		frame.getContentPane().add(supprimerVoitureBtn); 
-		
-		JLabel lblNewLabelNimmatriculation = new JLabel("Nimmatriculation");
-		lblNewLabelNimmatriculation.setBounds(615, 18, 100, 35);
-		frame.getContentPane().add(lblNewLabelNimmatriculation);
-		
-		JLabel lblNewLabelPrix = new JLabel("Prix");
-		lblNewLabelPrix.setBounds(470, 18, 100, 35);
-		frame.getContentPane().add(lblNewLabelPrix);
-		
-		JLabel lblCarburant = new JLabel("Carburant");
-		lblCarburant.setBounds(330, 18, 100, 35);
-		frame.getContentPane().add(lblCarburant);
-		
-		JLabel lblModle = new JLabel("Modèle");
-		lblModle.setBounds(190, 18, 100, 35);
-		frame.getContentPane().add(lblModle);
-		
-		JLabel lblVoiture = new JLabel("Voiture");
-		lblVoiture.setBounds(55, 18, 100, 35);
-		frame.getContentPane().add(lblVoiture);
+		frame.getContentPane().add(supprimerVoitureBtn);
 								}
 		
 		//méthode pour initialiser la connexion avec la base de données
@@ -181,7 +162,7 @@ public class park {
 				String id = table.getValueAt(selectedRow, 0).toString();
 
 				// Supprimer l'enregistrement de la base de données
-				String requeteDelete = "DELETE FROM garage WHERE NImmatriculation	 = ?";
+				String requeteDelete = "DELETE FROM garage WHERE voiture	 = ?";
 				try (PreparedStatement ps = conn.prepareStatement(requeteDelete)) {
 					ps.setString(1, id);
 					ps.executeUpdate();
