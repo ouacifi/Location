@@ -85,11 +85,22 @@ public class park {
 		textField.setColumns(10);
 		
 		JButton btnAfficherTous = new JButton("Afficher tous");
+		btnAfficherTous.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				afficherTous();
+			}
+		});
 		btnAfficherTous.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
 		btnAfficherTous.setBounds(140, 470, 150, 70);
 		frame.getContentPane().add(btnAfficherTous);
 		
 		JButton btnRechercherVoiture = new JButton("Rechercher Voiture");
+		btnRechercherVoiture.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				rechercherVoiture();
+				
+			}
+		});
 		btnRechercherVoiture.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
 		btnRechercherVoiture.setBounds(364, 470, 165, 70);
 		frame.getContentPane().add(btnRechercherVoiture);
@@ -164,6 +175,7 @@ public class park {
 				// Supprimer l'enregistrement de la base de données
 				String requeteDelete = "DELETE FROM garage WHERE voiture	 = ?";
 				try (PreparedStatement ps = conn.prepareStatement(requeteDelete)) {
+				System.out.println(requeteDelete);
 					ps.setString(1, id);
 					ps.executeUpdate();
 				} catch (SQLException ex) {
@@ -180,6 +192,39 @@ public class park {
 			} else {
 				System.out.println("Veuillez sélectionner une ligne à supprimer.");
 			}
-
 		}
+		//	méthode pour rechercher une voiture 
+		public void  rechercherVoiture() {
+											
+				String recherche = textField.getText(); // Supposons que vous avez un JTextField nommé textField pour
+														// saisir le critère de recherche
+				String colonne = "voiture"; // Supposons que vous souhaitez rechercher dans la colonne "nom"
+				String requete = "SELECT * FROM garage WHERE " + colonne + " LIKE '%" + recherche + "%'";
+
+				try (PreparedStatement ps = conn.prepareStatement(requete)) {
+					ResultSet rs = ps.executeQuery();
+					table.setModel(DbUtils.resultSetToTableModel(rs));
+				} catch (SQLException ex) {
+					ex.printStackTrace();
+					return;
+				}
+			}
+		//méthode pour afficher tous les elements du tableau 
+				public void  afficherTous() {  
+					 
+
+			String requete = "SELECT * FROM garage ";
+
+			try (PreparedStatement ps = conn.prepareStatement(requete)) {
+			ResultSet rs = ps.executeQuery();
+			table.setModel(DbUtils.resultSetToTableModel(rs));
+			} catch (SQLException ex) {
+			ex.printStackTrace();
+			return;
+						}		
+				}			
+		
+		
+		
+		
 	}
