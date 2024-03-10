@@ -10,6 +10,7 @@ import net.proteanit.sql.DbUtils;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.SwingConstants;
 import javax.swing.table.DefaultTableModel;
@@ -175,7 +176,7 @@ public class park {
 				// Supprimer l'enregistrement de la base de données
 				String requeteDelete = "DELETE FROM garage WHERE voiture	 = ?";
 				try (PreparedStatement ps = conn.prepareStatement(requeteDelete)) {
-				System.out.println(requeteDelete);
+	//			System.out.println(requeteDelete);
 					ps.setString(1, id);
 					ps.executeUpdate();
 				} catch (SQLException ex) {
@@ -191,6 +192,8 @@ public class park {
 				table.repaint();
 			} else {
 				System.out.println("Veuillez sélectionner une ligne à supprimer.");
+				JOptionPane.showMessageDialog(null, "Veuillez sélectionner une ligne à supprimer.", "Erreur",
+						JOptionPane.ERROR_MESSAGE);
 			}
 		}
 		//	méthode pour rechercher une voiture 

@@ -147,6 +147,7 @@ public class ParkForm {
 				textFieldVoiture.setText("");
 				buttonGroup.clearSelection();
 				textFieldPrix.setText("");
+				
 			}
 		});
 		btnViderLesChamps.setFont(new Font("Tahoma", Font.BOLD | Font.ITALIC, 13));
